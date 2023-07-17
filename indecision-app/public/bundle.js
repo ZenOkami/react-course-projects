@@ -1,0 +1,1 @@
+(()=>{"use strict";console.log("utils is running");const o=o=>o>=18,l=o=>o>=21;console.log("app.js is running"),console.log(4*4),console.log(9),console.log(o(4)),console.log(o(18)),console.log(o(88)),console.log(l(4)),console.log(l(18)),console.log(l(88))})();
