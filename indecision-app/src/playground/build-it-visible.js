@@ -1,6 +1,5 @@
 console.log('Visibility App Running');
 const appRoot = document.getElementById('app');
-const button = document.querySelector('.button');
 
 class VisibilityToggle extends React.Component {
     constructor(props) {
@@ -58,7 +57,3 @@ ReactDOM.render(<VisibilityToggle />, appRoot);
 // };
 
 // renderPage();
-
-button.addEventListener('click', () => {
-    alert('Visibility Toggle App Running');
-});

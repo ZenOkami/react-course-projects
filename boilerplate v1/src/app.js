@@ -7,4 +7,4 @@ import './styles/styles.scss'
 const root = ReactDOM.createRoot(document.getElementById('app'));
 
 // root.render(<IndecisionApp />);
-root.render(<IndecisionApp />);
+root.render(<p>This is my boilerplate</p>);

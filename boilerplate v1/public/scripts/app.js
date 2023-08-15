@@ -9,4 +9,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var root = _client["default"].createRoot(document.getElementById('app'));
 
 // root.render(<IndecisionApp />);
-root.render( /*#__PURE__*/_react["default"].createElement(_IndecisionApp["default"], null));
+root.render( /*#__PURE__*/_react["default"].createElement("p", null, "This is my boilerplate"));
