@@ -6,7 +6,8 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link
+    Link,
+    NavLink,
 } from "react-router-dom";
 
 const Expense = () => (
@@ -33,14 +34,34 @@ const HelpPage = () => (
     </div>
 );
 
+const NotFoundPage = () => (
+    <div>
+        404! - <Link to="/">Go Home</Link>
+    </div>
+);
+
+const Header = () => (
+    <header>
+        <h1>Expensify</h1>
+        <NavLink to="/" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Dashboard</NavLink>
+        <NavLink to="/create" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Create an Expense</NavLink>
+        <NavLink to="/edit" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Edit an Expense</NavLink>
+        <NavLink to="/help" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Help</NavLink>
+    </header>
+);
+
 const router = (
     <Router>
-        <Routes>
-            <Route path='/' element={<Expense />} exact={true}/>
-            <Route path='/create' element={<AddExpense />} />
-            <Route path='/edit' element={<EditExpense />} />
-            <Route path='/help' element={<HelpPage />} />
-        </Routes>
+        <div>
+        <Header />
+            <Routes>
+                <Route path='/' element={<Expense />} exact={true}/>
+                <Route path='/create' element={<AddExpense />} />
+                <Route path='/edit' element={<EditExpense />} />
+                <Route path='/help' element={<HelpPage />} />
+                <Route path='*' element={<NotFoundPage />} />
+            </Routes>
+        </div>
     </Router>
 )
 
