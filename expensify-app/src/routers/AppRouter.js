@@ -9,7 +9,7 @@ import EditExpense from "../components/EditExpense";
 import AddExpense from "../components/AddExpense";
 import HelpPage from "../components/helpPage";
 import Header from "../components/headerPage";
-import NotFoundPage from "../components/error404";
+import Error404 from "../components/error404";
 
 
 const AppRouter = () => (
@@ -19,9 +19,9 @@ const AppRouter = () => (
             <Routes>
                 <Route path='/' element={<Expense />} exact={true}/>
                 <Route path='/create' element={<AddExpense />} />
-                <Route path='/edit' element={<EditExpense />} />
+                <Route path='/edit/:id' element={<EditExpense />} />
                 <Route path='/help' element={<HelpPage />} />
-                <Route path='*' element={<NotFoundPage />} />
+                <Route path='*' element={<Error404 />} />
             </Routes>
         </div>
     </Router>

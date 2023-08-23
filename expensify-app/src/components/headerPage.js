@@ -8,7 +8,6 @@ const Header = () => (
         <h1>Expensify</h1>
         <NavLink to="/" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Dashboard</NavLink>
         <NavLink to="/create" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Create an Expense</NavLink>
-        <NavLink to="/edit" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Edit an Expense</NavLink>
         <NavLink to="/help" className={({ isActive }) => isActive ? 'is-active' : undefined} end>Help</NavLink>
     </header>
 );

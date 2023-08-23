@@ -1,9 +1,13 @@
 import React from "react";
+import { useParams } from 'react-router-dom';
 
-const EditExpense = () => (
+const EditExpense = () => {
+    let { id } = useParams();
+
+    return (
     <div>
-        This is from my edit page
+        Editing the expense with id of {id}
     </div>
-);
+)};
 
 export default EditExpense;
