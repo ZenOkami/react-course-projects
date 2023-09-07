@@ -12,7 +12,6 @@ import PortfolioItemPage from "../components/portfolioItemPage";
 import ContactPage from "../components/contactPage";
 import Error404 from "../components/error404";
 
-
 const AppRouter = () => (
     <Router>
         <Header />
