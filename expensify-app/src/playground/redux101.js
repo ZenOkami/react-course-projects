@@ -1,4 +1,3 @@
-import { configureStore } from '@reduxjs/toolkit';
 import { createStore } from 'redux';
 
 console.log('101');
@@ -22,7 +21,7 @@ const resetCount = () => ({
     type: 'RESET'
 });
 
-const countReducer = (state = { count: 0 }, action) => {
+const store = createStore((state = { count: 0 }, action, ) => {
     switch (action.type) {
         case 'INCREMENT': {
             return {
@@ -48,9 +47,7 @@ const countReducer = (state = { count: 0 }, action) => {
             return state;
         }
     }
-}
-
-const store = configureStore({ reducer: countReducer });
+});
 
 const unsubscribe = store.subscribe(() => {
     console.log(store.getState());
