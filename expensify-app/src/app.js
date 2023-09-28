@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux'
 import Routes from './routers/AppRouter'
 import configureStore from './store/configureStore';
 import getVisibleExpenses from './selectors/expenses'
@@ -16,14 +17,20 @@ store.subscribe(() => {
     console.log(visibleExpenses);
 });
 
-const expenseOne = store.dispatch(addExpense({ description: 'Rent', amount: 100, createdAt: -1000 }));
-const expenseTwo = store.dispatch(addExpense({ description: 'Coffee', amount: 300, createdAt: 1000 }));
+store.dispatch(addExpense({ description: 'Water Bill', amount: 100, createdAt: 100000}));
+store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: 1000000 }));
+store.dispatch(setTextFilter('bill'));
 
-store.dispatch(removeExpense({ id: expenseOne.expense.id }))
-store.dispatch(addExpense({ description: 'Water Bill', amount: 100, createdAt: 100000}))
-store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: 1000000 }))
-store.dispatch(setTextFilter('bill'))
+setTimeout(() => {
+    store.dispatch(setTextFilter('rent'))
+}, 3000)
 
 const root = ReactDOM.createRoot(document.getElementById('app'));
 
-root.render(<Routes />);
+const jsx = (
+    <Provider store={store}>
+        <Routes />
+    </Provider>
+);
+
+root.render(jsx);
