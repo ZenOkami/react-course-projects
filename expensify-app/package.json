@@ -27,6 +27,8 @@
     "sass-loader": "^13.3.2",
     "sort-by": "^1.2.0",
     "style-loader": "^3.3.3",
+    "telnet": "^0.0.1",
+    "uuid": "^7.0.3",
     "validator": "^13.9.0",
     "yarn": "^1.22.19"
   },
