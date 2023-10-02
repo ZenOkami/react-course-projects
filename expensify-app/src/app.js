@@ -17,12 +17,12 @@ store.subscribe(() => {
     console.log(visibleExpenses);
 });
 
-store.dispatch(addExpense({ description: 'Water Bill', amount: 100, createdAt: 100000}));
-store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: 1000000 }));
-store.dispatch(setTextFilter('bill'));
+store.dispatch(addExpense({ description: 'Water Bill', amount: 100, createdAt: 10000012345}));
+store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: -1000000 }));
+store.dispatch(setTextFilter('water'));
 
 setTimeout(() => {
-    store.dispatch(setTextFilter('rent'))
+    store.dispatch(setTextFilter('bill'))
 }, 3000)
 
 const root = ReactDOM.createRoot(document.getElementById('app'));

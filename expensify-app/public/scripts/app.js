@@ -20,16 +20,16 @@ store.subscribe(function () {
 store.dispatch((0, _expenses2.addExpense)({
   description: 'Water Bill',
   amount: 100,
-  createdAt: 100000
+  createdAt: 10000012345
 }));
 store.dispatch((0, _expenses2.addExpense)({
   description: 'Gas bill',
   amount: 80,
-  createdAt: 1000000
+  createdAt: -1000000
 }));
-store.dispatch((0, _filters.setTextFilter)('bill'));
+store.dispatch((0, _filters.setTextFilter)('water'));
 setTimeout(function () {
-  store.dispatch((0, _filters.setTextFilter)('rent'));
+  store.dispatch((0, _filters.setTextFilter)('bill'));
 }, 3000);
 var root = _client["default"].createRoot(document.getElementById('app'));
 var jsx = /*#__PURE__*/_react["default"].createElement(_reactRedux.Provider, {
