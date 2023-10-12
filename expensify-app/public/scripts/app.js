@@ -30,7 +30,7 @@ store.dispatch((0, _expenses2.addExpense)({
 store.dispatch((0, _expenses2.addExpense)({
   description: 'Rent',
   amount: 850,
-  createdAt: 100000123450000000000
+  createdAt: 1500005555555
 }));
 var root = _client["default"].createRoot(document.getElementById('app'));
 var jsx = /*#__PURE__*/_react["default"].createElement(_reactRedux.Provider, {

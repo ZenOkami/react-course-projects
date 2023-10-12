@@ -1,18 +1,16 @@
 // Export a stateless functional component
 // description, amount, createdAt
 import React from "react";
-import { connect } from "react-redux";
-import { removeExpense } from "../actions/expenses";
 import moment from "moment";
+import { NavLink } from "react-router-dom";
 
-const ExpenseListItem = ({ dispatch, id, description, amount, createdAt }) => (
+const ExpenseListItem = ({ id, description, amount, createdAt }) => (
     <div>
-        <h3>{description}</h3>
+        <NavLink to={`/edit/${id}`} className={({ isActive }) => isActive ? 'is-active' : undefined} end>
+            <h3>{description}</h3>
+        </NavLink>
         <p>{amount} - {moment(createdAt).fromNow()}</p>
-        <button onClick={(e) => {
-            dispatch(removeExpense({ id }))
-        }}>Remove</button>
     </div>
 );
 
-export default connect()(ExpenseListItem);
+export default ExpenseListItem;
