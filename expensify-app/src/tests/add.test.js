@@ -16,5 +16,9 @@ test('Should generate Greeting with no name', () => {
     expect(result).toBe("Hello, Anonymous! Today's lucky number is 4919!")
 });
 
-// test file ?
-// test file again
+const generateBio = (name, age) => `${name} is ${age} year${age > 1 ? "s" : ""} old!`;
+
+test('Should generate proper bio', () => {
+    const result = generateBio('MattPat', 35);
+    expect(result).toBe("MattPat is 35 years old!")
+})
