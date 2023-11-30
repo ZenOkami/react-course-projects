@@ -6,6 +6,8 @@ import configureStore from './store/configureStore';
 import getVisibleExpenses from './selectors/expenses'
 import { addExpense, removeExpense, editExpense } from "./actions/expenses";
 import { setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount } from "./actions/filters"; 
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css'
 import 'normalize.css/normalize.css';
 import './styles/styles.scss'
 

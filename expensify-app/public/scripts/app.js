@@ -8,6 +8,8 @@ var _configureStore = _interopRequireDefault(require("./store/configureStore"));
 var _expenses = _interopRequireDefault(require("./selectors/expenses"));
 var _expenses2 = require("./actions/expenses");
 var _filters = require("./actions/filters");
+require("react-dates/initialize");
+require("react-dates/lib/css/_datepicker.css");
 require("normalize.css/normalize.css");
 require("./styles/styles.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
