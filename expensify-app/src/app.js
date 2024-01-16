@@ -13,15 +13,11 @@ import './styles/styles.scss'
 
 const store = configureStore();
 
-store.subscribe(() => {
-    const state = store.getState();
-    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-    console.log(visibleExpenses);
-});
-
-store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: -1000000 }));
-store.dispatch(addExpense({ description: 'Water Bill', amount: 60, createdAt: 10000012345 }));
-store.dispatch(addExpense({ description: 'Rent', amount: 850, createdAt: 1500005555555 }));
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+//     console.log(visibleExpenses);
+// });
 
 const root = ReactDOM.createRoot(document.getElementById('app'));
 
