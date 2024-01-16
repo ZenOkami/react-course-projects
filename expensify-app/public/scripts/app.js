@@ -14,7 +14,7 @@ require("normalize.css/normalize.css");
 require("./styles/styles.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var store = (0, _configureStore["default"])();
-
+console.log('testing');
 // store.subscribe(() => {
 //     const state = store.getState();
 //     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
