@@ -21,6 +21,7 @@
     "live-server": "^1.2.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "mini-css-extract-plugin": "^2.7.7",
     "moment": "^2.29.4",
     "node-sass": "^9.0.0",
     "normalize.css": "^8.0.1",
