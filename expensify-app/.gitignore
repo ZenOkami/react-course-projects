@@ -259,3 +259,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+public/bundle.js
+public/bundle.js.map
+public/style.css
+public/style.css.map
