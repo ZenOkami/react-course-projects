@@ -27,6 +27,10 @@ body {
     margin-right: 20px;
   }
   
+  #start-stop-btn {
+    display: none;
+  }
+
   button {
     background-color: #4CAF50;
     color: #fff;
@@ -69,7 +73,7 @@ body {
   
   input {
     flex-grow: 1;
-    padding: 10px;
+    paddin6g: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     margin-right: 10px;

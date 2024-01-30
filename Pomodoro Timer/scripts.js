@@ -12,7 +12,7 @@ let tasks = [];
 function updateTimerDisplay() {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  timerDisplay.textContent = 'Enter a Task to Begin!' /*`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`*/;
 }
 
 function startTimer() {
@@ -62,7 +62,18 @@ taskForm.addEventListener('submit', (e) => {
       isPaused: true,
       intervalId: null,
       updateDisplay: () => {
-        timerDisplay.textContent = `${newTask.title}: ${Math.floor(newTask.timer.timeLeft / 60)}:${(newTask.timer.timeLeft % 60).toString().padStart(2, '0')}`;
+        timerDisplay.innerHTML = `${newTask.title}: ${Math.floor(newTask.timer.timeLeft / 60)}:${(newTask.timer.timeLeft % 60).toString().padStart(2, '0')} <button class="start-btn">Start</button>
+        <button class="pause-btn">Pause</button>`;
+        timerDisplay.querySelector('.start-btn').addEventListener('click', () => {
+            newTask.timer.start();
+            timerDisplay.querySelector('.start-btn').disabled = true;
+            timerDisplay.querySelector('.pause-btn').disabled = false;
+          });
+          timerDisplay.querySelector('.pause-btn').addEventListener('click', () => {
+            newTask.timer.pause();
+            timerDisplay.querySelector('.start-btn').disabled = false;
+            timerDisplay.querySelector('.pause-btn').disabled = true;
+          });
       },
       start: () => {
         newTask.timer.isPaused = false;
@@ -97,6 +108,7 @@ taskForm.addEventListener('submit', (e) => {
     <button class="start-btn">Start</button>
     <button class="pause-btn">Pause</button>
   `;
+
   li.querySelector('.start-btn').addEventListener('click', () => {
     newTask.timer.start();
     li.querySelector('.start-btn').disabled = true;
@@ -110,6 +122,7 @@ taskForm.addEventListener('submit', (e) => {
   taskList.appendChild(li);
   taskTitle.value = '';
 });
+
 
 // Initialize the timer display
 updateTimerDisplay();
