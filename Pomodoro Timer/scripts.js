@@ -6,14 +6,19 @@ const taskList = document.querySelector('#task-list');
 
 let timerInterval;
 let timeLeft = 25 * 60; // 25 minutes
-let isPaused = true;
+let isPaused = false;
 let tasks = [];
 let newTaskTitle = '';
 
 function updateTimerDisplay() {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  timerDisplay.textContent = 'Enter a Task to Begin!' /*`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`*/;
+
+  if (timeLeft === 0) {
+    timerDisplay.textContent = 'Enter a Task to Begin!';
+  } else {
+    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
 }
 
 timerInterval = setInterval(() => {
@@ -22,7 +27,7 @@ timerInterval = setInterval(() => {
       }
     if (timeLeft <= 0) {
         isPaused = true;
-        clearInterval(timerInterval);
+        clearInterval(newTask.timer.intervalId);
         pauseTimer();
         updateTimerDisplay();
         alert('🕛Time is up! \nTake a Break!')
@@ -38,16 +43,19 @@ function startTimer() {
     return;
   }
   isPaused = false;
-  updateTimerDisplay();
-  timerInterval = setInterval(() => {
+  document.querySelectorAll('.start-btn').classList.add('disabled')
+  document.querySelectorAll('.start-btn').forEach(btn => btn.disabled = true);
+  document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = false);
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
     timeLeft--;
     updateTimerDisplay();
-    if (timeLeft === 0) {
-        isPaused = true;
-        clearInterval(timerInterval);
-        pauseTimer();
-        updateTimerDisplay();
-        alert('🕛Time is up! \nTake a Break!')
+    if (timeLeft <= 0) {
+      isPaused = true;
+      clearInterval(newTask.timer.intervalId);
+      pauseTimer();
+      updateTimerDisplay();
+      alert('🕛Time is up! \nTake a Break!')
       if (tasks.length > 0) {
         const nextTask = tasks.shift();
         nextTask.timer.start();
@@ -58,28 +66,20 @@ function startTimer() {
 
 // Create a function to stop the timer and end the timer
 function stopTimer() {
-  clearInterval(timerInterval);
+  clearInterval(newTask.timer.intervalId);
   timeLeft = 0;
   isPaused = true;
 }
 
 function pauseTimer() {
+  clearInterval(newTask.timer.intervalId);
   isPaused = true;
-  clearInterval(timerInterval);
+  document.querySelectorAll('.start-btn').forEach(btn => btn.disabled = false);
+  document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = true);
   timerDisplay.textContent = 'Enter a Task to Begin!'
   timeLeft = 0;
   clearInterval(timerInterval);
-}
-
-startStopBtn.addEventListener('click', () => {
-  if (isPaused) {
-    startTimer();
-    startStopBtn.textContent = 'Stop';
-  } else {
-    pauseTimer();
-    startStopBtn.textContent = 'Start';
   }
-});
 
 taskForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -95,17 +95,31 @@ taskForm.addEventListener('submit', (e) => {
       updateDisplay: () => {
         timerDisplay.innerHTML = `${newTask.title}: ${Math.floor(newTask.timer.timeLeft / 60)}:${(newTask.timer.timeLeft % 60).toString().padStart(2, '0')} <button class="start-btn">Start</button>
         <button class="pause-btn">Pause</button>`;
+        document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = false);
         newTaskTitle = newTask.title;
         timerDisplay.querySelector('.start-btn').addEventListener('click', () => {
             newTask.timer.start();
             document.querySelectorAll('.start-btn').forEach(btn => btn.disabled = true);
-            document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = false);            
+            document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = false);
+            document.querySelectorAll('.start-btn').classList.add('disabled');
+            document.querySelectorAll('.pause-btn').classList.remove('disabled');
           });
           timerDisplay.querySelector('.pause-btn').addEventListener('click', () => {
             newTask.timer.pause();
             document.querySelectorAll('.start-btn').forEach(btn => btn.disabled = false);
-            document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = true);            
+            document.querySelectorAll('.pause-btn').forEach(btn => btn.disabled = true); 
+            document.querySelectorAll('.start-btn').classList.remove('disabled');
+            document.querySelectorAll('.pause-btn').classList.add('disabled');       
           });
+          if (newTask.timer.isPaused) {
+            timerDisplay.querySelector('.start-btn').disabled = false;
+            timerDisplay.querySelector('.pause-btn').disabled = true;
+            document.querySelectorAll('.start-btn').classList.remove('disabled');
+            document.querySelectorAll('.pause-btn').classList.add('disabled');
+          } else {
+            timerDisplay.querySelector('.start-btn').disabled = true;
+            timerDisplay.querySelector('.pause-btn').disabled = false;
+          }
       },
       start: () => {
         newTask.timer.isPaused = false;
@@ -130,6 +144,8 @@ taskForm.addEventListener('submit', (e) => {
       pause: () => {
         newTask.timer.isPaused = true;
         clearInterval(newTask.timer.intervalId);
+        document.querySelectorAll('.start-btn').classList.remove('disabled');
+        document.querySelectorAll('.pause-btn').classList.add('gray-disabled');
       }
     }
   };
@@ -149,30 +165,16 @@ taskForm.addEventListener('submit', (e) => {
   taskTitle.value = ''; 
 });
 
+li.querySelector('.start-btn').addEventListener('click', () => {
+  newTask.timer.start();
+  newTask.timer.updateDisplay(); // Update button states
+});
+
+li.querySelector('.pause-btn').addEventListener('click', () => {
+  newTask.timer.pause();
+  newTask.timer.updateDisplay(); // Update button states
+});
+
 
 // Initialize the timer display
 updateTimerDisplay();
-
-const observer = new MutationObserver((mutations) => {
-  console.log('The textContent of the div has changed');
-  if (timerDisplay.textContent.includes(`${newTaskTitle}: 24:55`)) {
-    isPaused = true;
-    startTimer();
-    pauseTimer();
-    stopTimer();
-    if (timeLeft === 0) {
-      startTimer();
-      pauseTimer();
-      timerDisplay.innerHTML = '<div>Enter a Task to Begin!</div>';
-    }
-    timeLeft = 25 * 60;
-    timerDisplay.textContent = ``
-    timerDisplay.textContent = 'Enter a Task to Begin!';
-  }
-})
-
-observer.observe(timerDisplay, {
-  attributes: true,
-  characterData: true,
-  childList: true
-})

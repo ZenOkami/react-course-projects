@@ -26,6 +26,12 @@ body {
     font-size: 3rem;
     margin-right: 20px;
   }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    background: #787777;
+  }
   
   #start-stop-btn {
     display: none;

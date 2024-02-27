@@ -12,6 +12,7 @@ require("react-dates/initialize");
 require("react-dates/lib/css/_datepicker.css");
 require("normalize.css/normalize.css");
 require("./styles/styles.scss");
+var _firebase = _interopRequireDefault(require("./firebase/firebase"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var store = (0, _configureStore["default"])();
 console.log('testing');
