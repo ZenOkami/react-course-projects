@@ -3,7 +3,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
 
-import { getDatabase, ref, set, update, remove } from "firebase/database";
+import { getDatabase, ref, set, update, remove, onValue } from "firebase/database";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -28,47 +28,85 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-set(ref(db), {
-  username: 'Gianpi Stas',
-  age: 29,
-  isEmployed: true,
-  location: {
-    city: 'Boulder',
-    state: 'CO',
-    country: 'United States',
+
+onValue(ref(db),
+  (dataSnapshot) => { 
+  const val = dataSnapshot.val();
+  console.log(`${val.username} is a ${val.job.title} at ${val.job.company}. ${val.username} is ${val.age} year${val.age === 1 ? '' : 's'} old.`);
+  }, {
+    onlyOnce: false,
   }
-}).then(() => {
-  console.log('Data is saved');
-}).catch((err) => {
-  console.log('This failed.', err);
-});
+);
 
-// set(ref(db), 'This is my data')
-update(ref(db), {
-  age: 30,
-  'location/city': 'Denver'
-}).then(() => {
-  console.log('Data was updated')
-}).catch((err) => {
-  console.log('Update failed.', err);
-})
+setTimeout(() => {
+  update(ref(db), {
+    age: 33,
+    'job/company': 'SumUp'
+  })
+}, 3500)
 
-remove(ref(db, 'isEmployed')).then(() => {
-  console.log('Successfully removed')
-}).catch((err) => {
-  console.log('Error in removing', err);
-})
+setTimeout(() => {
+  update(ref(db), {
+    age: 31,
+    'job/company': 'Apple'
+  })
+}, 7000)
 
-const analytics = getAnalytics();
+setTimeout(() => {
+  update(ref(db), {
+    age: 30,
+    'job/company': 'Google'
+  })
+}, 10500)
 
-const attributes = {
-    height: `5'10"`,
-    weight: 200
-}
+// set(ref(db), {
+//   username: 'Gianpi Stas',
+//   age: 29,
+//   stressLevel: 6,
+//   isEmployed: true,
+//   job: {
+//     title: 'Admissions',
+//     company: 'Naropa University'
+//   },
+//   location: {
+//     city: 'Boulder',
+//     state: 'CO',
+//     country: 'United States',
+//   }
+// }).then(() => {
+//   console.log('Data is saved');
+// }).catch((err) => {
+//   console.log('This failed.', err);
+// });
 
-set(ref(db, 'attributes'), attributes).then(() => {
-  console.log('Second set call worked')
-}).catch((err) => {
-  console.error('Error in second set call', err)
-});
-set(ref(db, 'analytics'), analytics);
+// update(ref(db), {
+//   age: 30,
+//   stressLevel: 9,
+//   'job/title': 'Software Engineer',
+//   'job/company': 'Google',
+//   'location/city': 'Denver'
+// }).then(() => {
+//   console.log('Data was updated')
+// }).catch((err) => {
+//   console.log('Update failed.', err);
+// })
+
+// remove(ref(db, 'isEmployed')).then(() => {
+//   console.log('Successfully removed')
+// }).catch((err) => {
+//   console.log('Error in removing', err);
+// })
+
+// const analytics = getAnalytics();
+
+// const attributes = {
+//     height: `5'10"`,
+//     weight: 200
+// }
+
+// set(ref(db, 'attributes'), attributes).then(() => {
+//   console.log('Second set call worked')
+// }).catch((err) => {
+//   console.error('Error in second set call', err)
+// });
+// set(ref(db, 'analytics'), analytics);
