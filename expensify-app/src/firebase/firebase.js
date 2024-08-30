@@ -3,7 +3,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
 
-import { getDatabase, ref, set, update, remove, onValue } from "firebase/database";
+import { getDatabase, ref, set, update, remove, onValue, push, DataSnapshot, onChildAdded, onChildRemoved, onChildChanged } from "firebase/database";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -29,14 +29,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
-onValue(ref(db),
-  (dataSnapshot) => { 
-  const val = dataSnapshot.val();
-  console.log(`${val.username} is a ${val.job.title} at ${val.job.company}. ${val.username} is ${val.age} year${val.age === 1 ? '' : 's'} old.`);
-  }, {
-    onlyOnce: false,
-  }
-);
+// onValue(ref(db),
+//   (dataSnapshot) => { 
+//   const val = dataSnapshot.val();
+//   console.log(`${val.username} is a ${val.job.title} at ${val.job.company}. ${val.username} is ${val.age} year${val.age === 1 ? '' : 's'} old.`);
+//   }, {
+//     onlyOnce: false,
+//   }
+// );
+
+// push(ref(db, 'notes'), {
+//   title: 'Course Topics',
+//   body: 'React Native, Angular, Python'
+// })
+
+// push(ref(db, 'expenses'), {
+//   description: 'Rent',
+//   note: 'Rent payments',
+//   amount: 175000,
+//   createdAt: 48945680
+// })
 
 setTimeout(() => {
   update(ref(db), {
@@ -59,6 +71,21 @@ setTimeout(() => {
   })
 }, 10500)
 
+onValue(ref(db, 'expenses'),
+  (dataSnapshot) => {
+    const val = dataSnapshot.val();
+    const expenses = [];
+
+    dataSnapshot.forEach((childSnapshot) => {
+      expenses.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val()
+      })
+    })
+    console.log(expenses)
+  }, {
+    onlyOnce: true
+  });
 // set(ref(db), {
 //   username: 'Gianpi Stas',
 //   age: 29,
@@ -110,3 +137,43 @@ setTimeout(() => {
 //   console.error('Error in second set call', err)
 // });
 // set(ref(db, 'analytics'), analytics);
+
+onChildAdded(ref(db, 'expenses'),
+  (dataSnapshot) => {
+    const expenses = [];
+    dataSnapshot.forEach((childSnapshot) => {
+      expenses.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val()
+      });      
+    });
+    console.log(expenses);
+}, (error) => {
+  console.log("Error: ", error)
+})
+
+onChildRemoved(ref(db, 'expenses'), 
+  (dataSnapshot) => {
+    const expenses = [];
+    dataSnapshot.forEach((childSnapshot) => {
+      expenses.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val()
+      });      
+    });
+    console.log(expenses);
+}, (error) => {
+  console.log("Error: ", error)
+})
+
+onChildChanged(ref(db, 'expenses'),
+  (dataSnapshot) => {
+    const expenses = [];
+    dataSnapshot.forEach((childSnapshot) => {
+      expenses.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val()
+      });      
+    });
+    console.log(expenses)
+})

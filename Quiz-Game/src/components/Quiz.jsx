@@ -29,6 +29,8 @@ const quizQuestions = [
     }
 ]
 
+//MARK: Quiz Functionality
+
 const Quiz = () => {
     let i = 0;
     const [count, setCount] = useState(0);
@@ -56,11 +58,11 @@ const Quiz = () => {
 
     let wonGame = false;
 
-    if (count === (quizQuestions.length) && !wonGame) {
-        console.log(wonGame);
-        alert("Congratulations! You got all questions correctly!");
+    while(count === quizQuestions.length && !wonGame) {
         wonGame = true;
         console.log(wonGame);
+        alert("Congratulations! You got all questions correctly!");
+        
     }
     
     const CorrectAnswer = () => (<button type="button" onClick={handleClick} value={quizQuestions[index].answer}>{quizQuestions[index].answer}</button>);
