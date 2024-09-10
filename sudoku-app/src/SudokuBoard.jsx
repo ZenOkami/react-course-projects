@@ -121,7 +121,7 @@ export const SudokuBoard = () => {
         setTimeout(() => {
             wipe.remove();
             sparklesContainer.remove();
-        }, 8000); // Remove elements after 8 seconds
+        }, 10000); // Remove elements after 8 seconds
     };
 
     return (

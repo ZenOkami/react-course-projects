@@ -1,8 +1,13 @@
+* {
+  background-color: #1c1c1c;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #1c1c1c;
 }
 
 .logo {
@@ -114,13 +119,14 @@ body{
     to bottom,
     rgba(255, 255, 255, 0), /* Fully transparent */
     rgba(255, 255, 255, 0.4) 45%, /* Semi-transparent at the center */
-    rgba(255, 255, 255, 0.6) 50%, /* Brightest point */
+    rgba(255, 255, 255, 0.882) 50%, /* Brightest point */
     rgba(255, 255, 255, 0.4) 55%, /* Semi-transparent again */
     rgba(255, 255, 255, 0) /* Fully transparent */
   );
   box-shadow: 0px 10px 20px 0px rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px); /* Increased blur for glassy effect */
-  animation: wipe-animation 3s forwards;
+  animation: wipe-animation 5s forwards;
+  animation-delay: -5s; /* Start the animation 1 second earlier */
   pointer-events: none; /* Ensures the wipe doesn't interfere with user interactions */
 }
 
@@ -150,7 +156,7 @@ body{
   position: absolute;
   font-size: 24px;
   opacity: 0;
-  animation: sparkle-animation 2s forwards;
+  animation: sparkle-animation 4s forwards;
   background-image: url(./assets/sparkles.png);
   color: #FFD700; /* Gold color for the sparkle */
 }
