@@ -1,20 +1,27 @@
-import { useState } from 'react'
-import React from 'react'
-import { makepuzzle, solvepuzzle, ratepuzzle } from "sudoku";
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
-export const NumberSelector = ({ onSelectNumber }) => {
-    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  
+const NumberSelector = ({ onSelectNumber }) => {
+    const [selectedButton, setSelectedButton] = useState(null);
+
+    const handleClick = (number) => {
+        setSelectedButton(number);
+        onSelectNumber(number);
+    };
+
     return (
-      <div className="number-selector">
-        {numbers.map(number => (
-          <button key={number} onClick={() => onSelectNumber(number)}>
-            {number}
-          </button>
-        ))}
-      </div>
+        <div className="number-selector">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
+                <button
+                    key={number}
+                    onClick={() => handleClick(number)}
+                    className={`number-button ${selectedButton === number ? 'selected' : ''}`}
+                >
+                    {number}
+                </button>
+            ))}
+        </div>
     );
-  };
-  
+};
+
 export default NumberSelector;
