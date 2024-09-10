@@ -102,28 +102,28 @@ export const SudokuBoard = () => {
     const triggerPuzzleCompleteAnimation = () => {
         const container = document.querySelector('.sudoku-container');
         if (!container) return;
-
+    
         const wipe = document.createElement('div');
         wipe.className = 'wipe';
         container.appendChild(wipe);
-
+    
         const sparklesContainer = document.createElement('div');
         sparklesContainer.className = 'sparkles';
         container.appendChild(sparklesContainer);
-
+    
         for (let i = 1; i <= 10; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = `sparkle sparkle-${i}`;
             sparkle.textContent = '✨'; // Use the sparkle symbol
             sparklesContainer.appendChild(sparkle);
         }
-
+    
         setTimeout(() => {
             wipe.remove();
             sparklesContainer.remove();
-        }, 10000); // Remove elements after 8 seconds
+        }, 10000); // Remove elements after 10 seconds
     };
-
+    
     return (
         <div className="sudoku-container">
             <div className="difficulty-selector">

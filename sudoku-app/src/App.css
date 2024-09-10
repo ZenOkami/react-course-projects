@@ -1,13 +1,10 @@
-* {
-  background-color: #1c1c1c;
-}
-
+/* Ensure the root element also covers the full viewport */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: #1c1c1c;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
@@ -38,9 +35,15 @@
   }
 }
 
-body{
+/* Set the background color for the entire page */
+body {
   background-color: #1c1c1c;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  height: 100vh; /* Ensure body covers full viewport height */
+  overflow: hidden; /* Prevent scrollbars */
 }
+
 .card {
   padding: 2em;
 }
@@ -112,8 +115,8 @@ body{
 .wipe {
   position: absolute;
   top: -50%;
-  left: -150%;
-  width: 150%;
+  left: -100%;
+  width: 90%;
   height: 300%;
   background: linear-gradient(
     to bottom,
@@ -125,8 +128,7 @@ body{
   );
   box-shadow: 0px 10px 20px 0px rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px); /* Increased blur for glassy effect */
-  animation: wipe-animation 5s forwards;
-  animation-delay: -5s; /* Start the animation 1 second earlier */
+  animation: wipe-animation 3s forwards;
   pointer-events: none; /* Ensures the wipe doesn't interfere with user interactions */
 }
 
@@ -138,11 +140,12 @@ body{
     transform: translateX(0%); /* Fully cover the screen */
   }
   100% {
-    transform: translateX(200%); /* Move out of the view */
+    transform: translateX(450%); /* Move out of the view */
   }
 }
 
-/* Sparkles */
+
+/* Sparkles container should also cover the full viewport */
 .sparkles {
   position: absolute;
   top: 0;
@@ -156,7 +159,7 @@ body{
   position: absolute;
   font-size: 24px;
   opacity: 0;
-  animation: sparkle-animation 4s forwards;
+  animation: sparkle-animation 5s forwards;
   background-image: url(./assets/sparkles.png);
   color: #FFD700; /* Gold color for the sparkle */
 }
