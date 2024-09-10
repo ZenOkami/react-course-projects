@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Pomodoro Timer</h1>
+  </header>
+  <main>
+    <section class="timer">
+      <div class="time-left">25:00</div>
+      <button id="start-stop-btn">Start</button>
+    </section>
+    <section class="tasks">
+      <h2>Tasks</h2>
+      <form id="task-form">
+        <input type="text" id="task-title" placeholder="Task title" required>
+        <button type="submit">Add Task</button>
+      </form>
+      <ul id="task-list"></ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2024 STASI Technologies. All rights reserved.</p>
+  </footer>
+  <script src="scripts.js"></script>
+</body>
+</html>

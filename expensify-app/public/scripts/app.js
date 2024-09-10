@@ -8,30 +8,20 @@ var _configureStore = _interopRequireDefault(require("./store/configureStore"));
 var _expenses = _interopRequireDefault(require("./selectors/expenses"));
 var _expenses2 = require("./actions/expenses");
 var _filters = require("./actions/filters");
+require("react-dates/initialize");
+require("react-dates/lib/css/_datepicker.css");
 require("normalize.css/normalize.css");
 require("./styles/styles.scss");
+var _firebase = _interopRequireDefault(require("./firebase/firebase"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var store = (0, _configureStore["default"])();
-store.subscribe(function () {
-  var state = store.getState();
-  var visibleExpenses = (0, _expenses["default"])(state.expenses, state.filters);
-  console.log(visibleExpenses);
-});
-store.dispatch((0, _expenses2.addExpense)({
-  description: 'Gas bill',
-  amount: 80,
-  createdAt: -1000000
-}));
-store.dispatch((0, _expenses2.addExpense)({
-  description: 'Water Bill',
-  amount: 60,
-  createdAt: 10000012345
-}));
-store.dispatch((0, _expenses2.addExpense)({
-  description: 'Rent',
-  amount: 850,
-  createdAt: 1500005555555
-}));
+console.log('testing');
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+//     console.log(visibleExpenses);
+// });
+
 var root = _client["default"].createRoot(document.getElementById('app'));
 var jsx = /*#__PURE__*/_react["default"].createElement(_reactRedux.Provider, {
   store: store

@@ -6,20 +6,19 @@ import configureStore from './store/configureStore';
 import getVisibleExpenses from './selectors/expenses'
 import { addExpense, removeExpense, editExpense } from "./actions/expenses";
 import { setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount } from "./actions/filters"; 
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css'
 import 'normalize.css/normalize.css';
 import './styles/styles.scss'
+import firebase from './firebase/firebase';
 
 const store = configureStore();
-
-store.subscribe(() => {
-    const state = store.getState();
-    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-    console.log(visibleExpenses);
-});
-
-store.dispatch(addExpense({ description: 'Gas bill', amount: 80, createdAt: -1000000 }));
-store.dispatch(addExpense({ description: 'Water Bill', amount: 60, createdAt: 10000012345 }));
-store.dispatch(addExpense({ description: 'Rent', amount: 850, createdAt: 1500005555555 }));
+console.log('testing')
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+//     console.log(visibleExpenses);
+// });
 
 const root = ReactDOM.createRoot(document.getElementById('app'));
 

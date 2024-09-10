@@ -40,3 +40,16 @@ const item = ['Coffee (iced)', '$3.00', '$3.50', '$3.75'];
 const [itemName, , mediumPrice] = item;
 
 console.log(`A medium ${itemName} costs ${mediumPrice}.`);
+
+const arrayOfNums = [1, 2, 3, 4, 5, 6, 7, 8];
+let sum;
+
+const functionName = (array) => {
+    console.log("Hello, world!")
+    array.forEach((val, i) => {
+        sum += array[i];
+        return sum;
+    })
+}
+
+console.log(functionName(arrayOfNums));
