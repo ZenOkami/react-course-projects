@@ -9,7 +9,8 @@ export const SudokuBoard = () => {
     const [selectedNumber, setSelectedNumber] = useState(null);
     const [difficulty, setDifficulty] = useState('easy');
     const [cellColors, setCellColors] = useState([]);
-    const [isSolved, setIsSolved] = useState(false); // New state for animation
+    const [isSolved, setIsSolved] = useState(false);
+    const [numberStatus, setNumberStatus] = useState({});
 
     useEffect(() => {
         generatePuzzle();
@@ -21,19 +22,19 @@ export const SudokuBoard = () => {
         }
     }, [isSolved]);
 
+    useEffect(() => {
+        highlightSelectedNumber();
+    }, [puzzle, selectedNumber]);
+
     const generatePuzzle = () => {
         let newPuzzle, puzzleRating;
-
-        // Adjust the range for each difficulty level
         const difficultyRanges = {
-            easy: [0, 1.5], // Easy puzzles
-            medium: [1.5, 3], // Medium puzzles
-            hard: [3, 5] // Hard puzzles
+            easy: [0, 1.5],
+            medium: [1.5, 3],
+            hard: [3, 5]
         };
-
         const [minDifficulty, maxDifficulty] = difficultyRanges[difficulty];
 
-        // Keep generating puzzles until we get one within the desired difficulty range
         do {
             newPuzzle = makepuzzle();
             puzzleRating = ratepuzzle(newPuzzle, 4);
@@ -51,11 +52,11 @@ export const SudokuBoard = () => {
             console.error('Failed to generate a valid solution for the puzzle');
             setSolvedPuzzle(null);
         }
-        setIsSolved(false); // Reset solved state
+        setIsSolved(false);
+        setNumberStatus({});
     };
 
     const checkIfSolved = (currentPuzzle) => {
-        // Compare current puzzle state with the solved puzzle
         for (let i = 0; i < 81; i++) {
             if (currentPuzzle[i] !== solvedPuzzle[i]) {
                 return false;
@@ -69,27 +70,56 @@ export const SudokuBoard = () => {
             const newPuzzle = [...puzzle];
             newPuzzle[index] = selectedNumber;
             setPuzzle(newPuzzle);
-
+    
+            // Update the status of the selected number
+            updateNumberStatus(newPuzzle, selectedNumber);
+    
+            // Update cell colors based on correctness
             const newCellColors = [...cellColors];
             if (selectedNumber === solvedPuzzle[index]) {
-                newCellColors[index] = '';
+                newCellColors[index] = 'correct';  // Correct number
             } else {
-                newCellColors[index] = 'red';
+                newCellColors[index] = 'incorrect';  // Incorrect number
             }
             setCellColors(newCellColors);
-
-            // Check if the puzzle is solved after each move
+    
+            // Check if the puzzle is solved
             if (checkIfSolved(newPuzzle)) {
-                setIsSolved(true); // Trigger the solved animation
+                setIsSolved(true);
             }
         }
     };
+    
+
+    const updateNumberStatus = (currentPuzzle, number) => {
+        // Count occurrences of the number in the current puzzle
+        const countInPuzzle = currentPuzzle.reduce((count, cell, index) => {
+            return cell === number && cell === solvedPuzzle[index] ? count + 1 : count;
+        }, 0);
+    
+        // Count how many of that number should be in the solution
+        const countInSolution = solvedPuzzle.filter(cell => cell === number).length;
+    
+        // If all occurrences of the number in the current puzzle match the solution, mark it as 'complete'
+        if (countInPuzzle === countInSolution) {
+            setNumberStatus(prevStatus => ({
+                ...prevStatus,
+                [number]: 'complete'
+            }));
+        } else {
+            // Otherwise, mark it as 'incomplete'
+            setNumberStatus(prevStatus => ({
+                ...prevStatus,
+                [number]: 'incomplete'
+            }));
+        }
+    };    
 
     const handleSolve = () => {
         if (solvedPuzzle) {
             setPuzzle(solvedPuzzle.map(value => value === null ? '' : value));
             setCellColors(new Array(81).fill(''));
-            setIsSolved(true); // Trigger the solved animation
+            setIsSolved(true);
         } else {
             console.error('No solution available for the current puzzle');
         }
@@ -102,28 +132,53 @@ export const SudokuBoard = () => {
     const triggerPuzzleCompleteAnimation = () => {
         const container = document.querySelector('.sudoku-container');
         if (!container) return;
-    
+
         const wipe = document.createElement('div');
         wipe.className = 'wipe';
         container.appendChild(wipe);
-    
+
         const sparklesContainer = document.createElement('div');
         sparklesContainer.className = 'sparkles';
         container.appendChild(sparklesContainer);
-    
+
         for (let i = 1; i <= 10; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = `sparkle sparkle-${i}`;
-            sparkle.textContent = '✨'; // Use the sparkle symbol
+            sparkle.textContent = '✨';
             sparklesContainer.appendChild(sparkle);
         }
-    
+
         setTimeout(() => {
             wipe.remove();
             sparklesContainer.remove();
-        }, 10000); // Remove elements after 10 seconds
+        }, 10000);
     };
-    
+
+    const handleNumberSelect = (number) => {
+        setSelectedNumber(number);
+        highlightSelectedNumber(number);
+    };
+
+    const highlightSelectedNumber = (number = selectedNumber) => {
+        const newCellColors = puzzle.map((cell, index) => {
+            let backgroundColor = '';
+            let textColor = '';
+
+            // Highlight the selected number with yellow background
+            if (cell === number) {
+                backgroundColor = 'yellow';
+            }
+
+            // Incorrect number should have red text
+            if (cell !== '' && cell !== solvedPuzzle[index]) {
+                textColor = 'red';
+            }
+
+            return { backgroundColor, textColor };
+        });
+        setCellColors(newCellColors);
+    };
+
     return (
         <div className="sudoku-container">
             <div className="difficulty-selector">
@@ -134,13 +189,20 @@ export const SudokuBoard = () => {
                     <option value="hard">Hard</option>
                 </select>
             </div>
-            <NumberSelector onSelectNumber={setSelectedNumber} selectedNumber={selectedNumber} />
+            <NumberSelector 
+                onSelectNumber={handleNumberSelect} 
+                selectedNumber={selectedNumber} 
+                numberStatus={numberStatus}
+            />
             <div className="sudoku-board">
                 {puzzle.map((cell, index) => (
                     <div 
                         key={index} 
                         className="sudoku-cell"
-                        style={{ color: cellColors[index] }}
+                        style={{ 
+                            backgroundColor: cellColors[index]?.backgroundColor, 
+                            color: cellColors[index]?.textColor || 'black' 
+                        }}
                         onClick={() => handleCellClick(index)}
                     >
                         {cell !== '' ? cell : null}

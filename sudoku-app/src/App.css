@@ -126,7 +126,7 @@ body {
     rgba(255, 255, 255, 0.4) 55%, /* Semi-transparent again */
     rgba(255, 255, 255, 0) /* Fully transparent */
   );
-  box-shadow: 0px 10px 20px 0px rgba(255, 255, 255, 0.3);
+  box-shadow: 10px 10px 20px 15px rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px); /* Increased blur for glassy effect */
   animation: wipe-animation 3s forwards;
   pointer-events: none; /* Ensures the wipe doesn't interfere with user interactions */
@@ -263,9 +263,23 @@ button {
   color: red;
 }
 
+.sudoku-cell.red {
+  color: red;
+}
+
+.sudoku-cell.black {
+  color: black;
+}
+
 .number-button.selected {
   background-color: #4caf50; /* Change to any color you prefer */
   color: white;
+}
+
+.number-button:disabled {
+  cursor: not-allowed;
+  background-color: gold;
+  color: black;
 }
 
 .number-button {

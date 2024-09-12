@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const NumberSelector = ({ onSelectNumber }) => {
-    const [selectedButton, setSelectedButton] = useState(null);
-
+const NumberSelector = ({ onSelectNumber, selectedNumber, numberStatus }) => {
     const handleClick = (number) => {
-        setSelectedButton(number);
-        onSelectNumber(number);
+        if (numberStatus[number] !== 'complete') {
+            onSelectNumber(number);
+        }
     };
 
     return (
@@ -15,7 +14,12 @@ const NumberSelector = ({ onSelectNumber }) => {
                 <button
                     key={number}
                     onClick={() => handleClick(number)}
-                    className={`number-button ${selectedButton === number ? 'selected' : ''}`}
+                    className={`number-button ${selectedNumber === number ? 'selected' : ''}`}
+                    style={{
+                        backgroundColor: numberStatus[number] === 'complete' ? 'gold' : '',
+                        pointerEvents: numberStatus[number] === 'complete' ? 'none' : 'auto',
+                        opacity: numberStatus[number] === 'complete' ? 0.7 : 1
+                    }}
                 >
                     {number}
                 </button>
@@ -23,5 +27,6 @@ const NumberSelector = ({ onSelectNumber }) => {
         </div>
     );
 };
+
 
 export default NumberSelector;
