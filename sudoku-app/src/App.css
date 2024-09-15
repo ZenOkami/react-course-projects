@@ -53,11 +53,68 @@ body {
 }
 
 .sudoku-container {
-  background-color: #1c1c1c;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  margin: 20px;
+}
+
+/* Aligning Timer and Difficulty Selector Side by Side */
+.top-controls {
+  display: flex;
+  justify-content: center; /* Center the contents horizontally */
+  align-items: center; /* Center the contents vertically */
+  gap: 20px; /* Add some spacing between the elements */
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.difficulty-selector, .stopwatch {
+  display: flex;
+  align-items: center; /* Ensure inner elements are centered vertically */
+  gap: 10px;
+}
+
+/* Additional centering for the difficulty selector */
+.difficulty-selector {
+  margin-bottom: 11px;
+}
+
+/* Container for Solve and Refresh Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px; /* Set a maximum width to keep them centered */
+  margin-top: 20px;
+  gap: 10px;
+}
+
+/* Mistake Counter */
+.mistake-counter {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Adjust button container for smaller screens */
+@media (max-width: 600px) {
+  .top-controls, .button-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .button-container button {
+      width: 100%;
+      margin-bottom: 10px;
+  }
 }
 
 .difficulty-selector {
@@ -223,6 +280,17 @@ button {
   grid-template-rows: repeat(9, 40px);
   gap: 0;
   border: 3px solid #000; /* Overall board border */
+}
+
+.preset-cell {
+  background-color: lightgray;
+  color: black;
+  pointer-events: none; /* Prevent clicking */
+}
+
+.correct-cell {
+  background-color: lightgreen;
+  pointer-events: none; /* Prevent clicking */
 }
 
 .sudoku-cell {

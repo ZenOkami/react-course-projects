@@ -9,8 +9,13 @@ export const SudokuBoard = () => {
     const [selectedNumber, setSelectedNumber] = useState(null);
     const [difficulty, setDifficulty] = useState('easy');
     const [cellColors, setCellColors] = useState([]);
+    const [inactiveCells, setInactiveCells] = useState([]); 
     const [isSolved, setIsSolved] = useState(false);
     const [numberStatus, setNumberStatus] = useState({});
+    const [elapsedTime, setElapsedTime] = useState(0); // For the stopwatch
+    const [timerRunning, setTimerRunning] = useState(false); // Stopwatch status
+    const [mistakeCount, setMistakeCount] = useState(0); // Mistake counter
+    const [showMistakeCounter, setShowMistakeCounter] = useState(false); // Toggle mistake counter display
 
     useEffect(() => {
         generatePuzzle();
@@ -25,6 +30,18 @@ export const SudokuBoard = () => {
     useEffect(() => {
         highlightSelectedNumber();
     }, [puzzle, selectedNumber]);
+
+    useEffect(() => {
+        let timer;
+        if (timerRunning) {
+            timer = setInterval(() => {
+                setElapsedTime(prevTime => prevTime + 1);
+            }, 1000);
+        } else if (!timerRunning && elapsedTime !== 0) {
+            clearInterval(timer);
+        }
+        return () => clearInterval(timer);
+    }, [timerRunning]);
 
     const generatePuzzle = () => {
         let newPuzzle, puzzleRating;
@@ -48,12 +65,18 @@ export const SudokuBoard = () => {
             const adjustedSolution = solution.map(value => value + 1);
             setSolvedPuzzle(adjustedSolution);
             setCellColors(new Array(81).fill(''));
+            const newInactiveCells = adjustedPuzzle.map((cell, index) => cell !== '' ? index : null).filter(index => index !== null);
+            setInactiveCells(newInactiveCells);
         } else {
             console.error('Failed to generate a valid solution for the puzzle');
             setSolvedPuzzle(null);
         }
         setIsSolved(false);
         setNumberStatus({});
+        setElapsedTime(0); // Reset stopwatch
+        setTimerRunning(false); // Pause stopwatch
+        setMistakeCount(0); // Reset mistake counter
+        setShowMistakeCounter(false); // Hide mistake counter
     };
 
     const checkIfSolved = (currentPuzzle) => {
@@ -66,59 +89,57 @@ export const SudokuBoard = () => {
     };
 
     const handleCellClick = (index) => {
+        if (inactiveCells.includes(index)) {
+            return;
+        }
+
         if (selectedNumber !== null) {
             const newPuzzle = [...puzzle];
             newPuzzle[index] = selectedNumber;
             setPuzzle(newPuzzle);
-    
-            // Update the status of the selected number
             updateNumberStatus(newPuzzle, selectedNumber);
-    
-            // Update cell colors based on correctness
+
             const newCellColors = [...cellColors];
             if (selectedNumber === solvedPuzzle[index]) {
-                newCellColors[index] = 'correct';  // Correct number
+                newCellColors[index] = 'correct';
+                setInactiveCells([...inactiveCells, index]);
             } else {
-                newCellColors[index] = 'incorrect';  // Incorrect number
+                newCellColors[index] = 'incorrect';
+                setMistakeCount(prevCount => prevCount + 1); // Increment mistake counter
             }
             setCellColors(newCellColors);
-    
-            // Check if the puzzle is solved
+
             if (checkIfSolved(newPuzzle)) {
                 setIsSolved(true);
             }
         }
     };
-    
 
     const updateNumberStatus = (currentPuzzle, number) => {
-        // Count occurrences of the number in the current puzzle
         const countInPuzzle = currentPuzzle.reduce((count, cell, index) => {
             return cell === number && cell === solvedPuzzle[index] ? count + 1 : count;
         }, 0);
-    
-        // Count how many of that number should be in the solution
+
         const countInSolution = solvedPuzzle.filter(cell => cell === number).length;
-    
-        // If all occurrences of the number in the current puzzle match the solution, mark it as 'complete'
+
         if (countInPuzzle === countInSolution) {
             setNumberStatus(prevStatus => ({
                 ...prevStatus,
                 [number]: 'complete'
             }));
         } else {
-            // Otherwise, mark it as 'incomplete'
             setNumberStatus(prevStatus => ({
                 ...prevStatus,
                 [number]: 'incomplete'
             }));
         }
-    };    
+    };
 
     const handleSolve = () => {
         if (solvedPuzzle) {
             setPuzzle(solvedPuzzle.map(value => value === null ? '' : value));
             setCellColors(new Array(81).fill(''));
+            setInactiveCells([...Array(81).keys()]); 
             setIsSolved(true);
         } else {
             console.error('No solution available for the current puzzle');
@@ -164,12 +185,10 @@ export const SudokuBoard = () => {
             let backgroundColor = '';
             let textColor = '';
 
-            // Highlight the selected number with yellow background
             if (cell === number) {
                 backgroundColor = 'yellow';
             }
 
-            // Incorrect number should have red text
             if (cell !== '' && cell !== solvedPuzzle[index]) {
                 textColor = 'red';
             }
@@ -179,8 +198,20 @@ export const SudokuBoard = () => {
         setCellColors(newCellColors);
     };
 
+    const toggleStopwatch = () => {
+        setTimerRunning(!timerRunning);
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
     return (
-        <div className="sudoku-container">
+            <div className="sudoku-container">
+        {/* Timer and Difficulty Selector Side by Side */}
+        <div className="top-controls">
             <div className="difficulty-selector">
                 <label>Select Difficulty: </label>
                 <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
@@ -189,29 +220,50 @@ export const SudokuBoard = () => {
                     <option value="hard">Hard</option>
                 </select>
             </div>
-            <NumberSelector 
-                onSelectNumber={handleNumberSelect} 
-                selectedNumber={selectedNumber} 
-                numberStatus={numberStatus}
-            />
-            <div className="sudoku-board">
-                {puzzle.map((cell, index) => (
-                    <div 
-                        key={index} 
-                        className="sudoku-cell"
-                        style={{ 
-                            backgroundColor: cellColors[index]?.backgroundColor, 
-                            color: cellColors[index]?.textColor || 'black' 
-                        }}
-                        onClick={() => handleCellClick(index)}
-                    >
-                        {cell !== '' ? cell : null}
-                    </div>
-                ))}
+
+            <div className="stopwatch">
+                <button onClick={toggleStopwatch}>{timerRunning ? 'Pause' : 'Start'}</button>
+                <span>{formatTime(elapsedTime)}</span>
             </div>
+        </div>
+
+        <NumberSelector 
+            onSelectNumber={handleNumberSelect} 
+            selectedNumber={selectedNumber} 
+            numberStatus={numberStatus}
+        />
+
+        <div className="sudoku-board">
+            {puzzle.map((cell, index) => (
+                <div 
+                    key={index} 
+                    className="sudoku-cell"
+                    style={{ 
+                        backgroundColor: cellColors[index]?.backgroundColor, 
+                        color: cellColors[index]?.textColor || 'black',
+                        pointerEvents: inactiveCells.includes(index) ? 'none' : 'auto' 
+                    }}
+                    onClick={() => handleCellClick(index)}
+                >
+                    {cell !== '' ? cell : null}
+                </div>
+            ))}
+        </div>
+
+        {/* Solve and Refresh Buttons Side by Side */}
+        <div className="button-container">
             <button onClick={handleSolve}>Solve Puzzle</button>
             <button onClick={handleRefresh}>{isSolved ? 'Start New Puzzle' : 'Refresh'}</button>
         </div>
+
+        {/* Mistake Counter Below Buttons */}
+        <div className="mistake-counter">
+            <button onClick={() => setShowMistakeCounter(!showMistakeCounter)}>
+                {showMistakeCounter ? 'Hide Mistake Counter' : 'Show Mistake Counter'}
+            </button>
+            {showMistakeCounter && <span>Mistakes: {mistakeCount}</span>}
+        </div>
+    </div>
     );
 };
 
