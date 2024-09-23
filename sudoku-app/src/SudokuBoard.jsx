@@ -65,8 +65,40 @@ export const SudokuBoard = () => {
             const adjustedSolution = solution.map(value => value + 1);
             setSolvedPuzzle(adjustedSolution);
             setCellColors(new Array(81).fill(''));
+            
+            // Pre-fills additional correct cells on 'Easy' Difficulty
+            if (difficulty === 'easy') {
+                const emptyCells = adjustedPuzzle
+                .map((cell, index) => (cell === '' ? index : null))
+                .filter(index => index !== null);
+                
+                //Randomly selects 20 empty cells and fills them with correct values from the solution
+                const additionalCellstoFill = 20;
+                const shuffledEmptyCells = emptyCells.sort(() => 0.5 - Math.random()).slice(0, additionalCellstoFill)
+                
+                shuffledEmptyCells.forEach(index => {
+                    adjustedPuzzle[index] = adjustedSolution[index]
+                });
+            }
+
+            // Pre-fill additional correct cells for 'Medium' difficulty
+            if (difficulty === 'medium') {
+                const emptyCells = adjustedPuzzle.map((cell, index) => (cell === '' ? index : null)).filter(index => index !== null);
+                
+                //Randomly selects 10 empty cells to fill them with correct values from the Solutions
+                const additionalCellstoFill = 10;
+                const shuffledEmptyCells = emptyCells.sort(() => 0.5 - Math.random()).slice(0, additionalCellstoFill);
+
+                shuffledEmptyCells.forEach(index => {
+                    adjustedPuzzle[index] = adjustedSolution[index];
+                });
+            }  
+            
+            setPuzzle(adjustedPuzzle);
+
             const newInactiveCells = adjustedPuzzle.map((cell, index) => cell !== '' ? index : null).filter(index => index !== null);
             setInactiveCells(newInactiveCells);
+
         } else {
             console.error('Failed to generate a valid solution for the puzzle');
             setSolvedPuzzle(null);
