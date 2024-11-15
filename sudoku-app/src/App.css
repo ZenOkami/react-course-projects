@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .logo {
@@ -35,13 +36,13 @@
   }
 }
 
-/* Set the background color for the entire page */
+/* Make sure the body allows scrolling for smaller screens */
 body {
   background-color: #1c1c1c;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  height: 100vh; /* Ensure body covers full viewport height */
-  overflow: hidden; /* Prevent scrollbars */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow-y: auto; /* Allow vertical scrolling */
 }
 
 .card {
@@ -53,68 +54,12 @@ body {
 }
 
 .sudoku-container {
+  background-color: #1c1c1c;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
-}
-
-/* Aligning Timer and Difficulty Selector Side by Side */
-.top-controls {
-  display: flex;
-  justify-content: center; /* Center the contents horizontally */
-  align-items: center; /* Center the contents vertically */
-  gap: 20px; /* Add some spacing between the elements */
-  width: 100%;
+  width: 100%; /* Make sure it takes up full width on smaller screens */
   max-width: 400px;
-  margin-bottom: 20px;
-}
-
-.difficulty-selector, .stopwatch {
-  display: flex;
-  align-items: center; /* Ensure inner elements are centered vertically */
-  gap: 10px;
-}
-
-/* Additional centering for the difficulty selector */
-.difficulty-selector {
-  margin-bottom: 11px;
-}
-
-/* Container for Solve and Refresh Buttons */
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 300px; /* Set a maximum width to keep them centered */
-  margin-top: 20px;
-  gap: 10px;
-}
-
-/* Mistake Counter */
-.mistake-counter {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-button {
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-/* Adjust button container for smaller screens */
-@media (max-width: 600px) {
-  .top-controls, .button-container {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .button-container button {
-      width: 100%;
-      margin-bottom: 10px;
-  }
 }
 
 .difficulty-selector {
@@ -147,14 +92,79 @@ button {
   background-color: #ddd;
 }
 
-@media (max-width: 600px) {
-  .sudoku-board {
-    grid-template-columns: repeat(9, 30px);
+@media (max-width: 480px) {
+  /* Adjust sudoku container for small mobile screens */
+  .sudoku-container {
+    width: 100%; /* Full width on smaller screens */
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    max-width: 300px;
+    flex-direction: column;
+    align-items: center; /* Center align the container */
+    justify-content: center; /* Ensure vertical centering */
   }
 
+  /* Adjust the sudoku board */
+  .sudoku-board {
+    grid-template-columns: repeat(9, 30px); /* Smaller grid for mobile */
+    grid-template-rows: repeat(9, 30px);
+    gap: 2px;
+  }
+
+  /* Adjust individual cells */
   .sudoku-cell {
     width: 30px;
     height: 30px;
+    font-size: 14px;
+  }
+
+  /* Adjust number selector buttons */
+  .number-selector {
+    display: flex;
+    justify-content: center; /* Center the number selector */
+    margin-bottom: 5px;
+  }
+
+  .number-button {
+    padding: 3px;
+    font-size: 14px;
+  }
+
+  /* Adjust button container */
+  .button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center align buttons */
+    width: 100%; /* Make sure it takes full width */
+    margin-top: 10px;
+  }
+
+  .button-container button {
+    width: 100%; /* Buttons take full width */
+    margin-bottom: 10px;
+  }
+
+  /* Adjust top controls (Timer, Difficulty Selector) */
+  .top-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center top controls */
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .difficulty-selector, .stopwatch {
+    flex-direction: row;
+    justify-content: center; /* Ensure centering */
+    gap: 5px;
+  }
+
+  /* Mistake counter */
+  .mistake-counter {
+    margin-top: 1px;
+    font-size: 14px;
+    text-align: center; /* Center the text */
   }
 }
 
@@ -280,17 +290,6 @@ button {
   grid-template-rows: repeat(9, 40px);
   gap: 0;
   border: 3px solid #000; /* Overall board border */
-}
-
-.preset-cell {
-  background-color: lightgray;
-  color: black;
-  pointer-events: none; /* Prevent clicking */
-}
-
-.correct-cell {
-  background-color: lightgreen;
-  pointer-events: none; /* Prevent clicking */
 }
 
 .sudoku-cell {
