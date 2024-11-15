@@ -177,3 +177,15 @@ onChildChanged(ref(db, 'expenses'),
     });
     console.log(expenses)
 })
+
+
+// Function to update the database on Firebase using the update method
+function updateExpense(id, updates) {
+  update(ref(db, 'expenses/' + id), updates)
+    .then(() => {
+      console.log('Data was updated')
+    })
+    .catch((err) => {
+      console.log('Update failed.', err);
+    })
+}
