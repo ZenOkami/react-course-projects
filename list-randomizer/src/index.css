@@ -1,0 +1,276 @@
+/* Global Styles (Dark Mode) */
+body {
+  background-color: #121212; /* Dark background for the whole page */
+  color: #e0e0e0; /* Light text color for readability */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  display: inline-block;
+  width: 80%; /* Use percentage for flexible width */
+  background-color: #545454;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  padding: 5em;
+  border: #b6b6b6; /* Border Element */
+  border-radius: 3em;
+  border-style: double;
+  border-width: 1.5em;
+}
+
+/* Centered Box for ListPage */
+.list-container {
+  position: relative;
+  width: 80%; /* Use percentage for flexible width */
+  max-width: 37.5em; /* Maximum width is 37.5em (600px equivalent in em) */
+  height: 70vh; /* 70% of the viewport height */
+  max-height: 37.5em; /* Maximum height is 37.5em (600px equivalent in em) */
+  background-color: #2c2c2c; /* Light gray background for the content box */
+  border-radius: 1em; /* Rounded corners */
+  box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.7);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* Ensures the container itself doesn't scroll */
+  border: 0.25em solid #444; /* Thick border around the container */
+}
+
+.form-flex {
+  display: flex;
+  align-items: center; /* Vertically centers the items */
+  justify-content: space-between; /* Space between the input field and the button */
+  width: 100%; /* Ensure it takes up the full available width */
+  max-width: 40em; /* Optional: set a max-width to limit the size */
+  margin: 0 auto; /* Center the form on the page */
+}
+
+.form-flex input {
+  flex-grow: 1; /* Let the input field take up most of the space */
+  padding: 0.5em; /* Add padding for better appearance */
+  margin-right: 0.5em; /* Space between the input and button */
+  font-size: 1em; /* Make the font size consistent */
+  border: 1px solid #ccc; /* Add a border to the input field */
+  border-radius: 5px; /* Optional: rounded corners for the input field */
+}
+
+.form-flex button {
+  width: 3em; /* Make the button square */
+  height: 1.5em; /* Make the button square */
+  font-size: 1.5em; /* Adjust the text size of the plus sign */
+  display: flex;
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
+  padding: 0; /* Remove any extra padding */
+  border: none; /* Remove any default borders */
+  background-color: #007BFF; /* Optional: background color */
+  color: white; /* Optional: white text color */
+  border-radius: 5px; /* Optional: rounded corners for the button */
+  cursor: pointer; /* Change cursor to pointer for better UX */
+}
+
+/* Add a hover effect to the button */
+.form-flex button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+h1 {
+  display: inline-flexbox;
+  text-align: center;
+  align-items: center;
+}
+
+/* Title Styles for ListPage */
+.list-container h1 {
+  font-size: 2em; /* Title size using em for scalability */
+  margin-bottom: 1em;
+  color: #ffffff;
+  display: block;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scrollable list (inside the container) */
+ol {
+  padding: 0;
+  margin-bottom: 1.5em;
+  width: 100%;
+  overflow-y: auto; /* Enables scrolling */
+  max-height: 30em; /* Set a max-height to control the height of the list */
+  flex-grow: 1; /* Allows the list to take available space within the container */
+  list-style-type: decimal; /* Ensures the list is numbered */
+  counter-reset: list-counter; /* Reset the counter to ensure numbers start from 1 */
+}
+
+/* List items inside ol */
+ol li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  border-bottom: 0.25em solid #444;
+  background-color: #333; /* Dark background for list items */
+  color: #e0e0e0;
+  margin-bottom: 0.5em;
+  border-radius: 0.5em;
+}
+
+/* Ensures the number appears before the text */
+ol li::before {
+  content: counter(list-counter) ". "; /* Adds numbering before each list item */
+  counter-increment: list-counter; /* Increments the counter for each li */
+  font-weight: bold; /* Makes the number bold */
+  margin-right: 0.5em; /* Space between the number and the item text */
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  border-bottom: 0.25em solid #444;
+  background-color: #333; /* Dark background for list items */
+  color: #e0e0e0;
+  margin-bottom: 0.5em;
+  border-radius: 0.5em;
+}
+
+li button {
+  background-color: #ff4747;
+  border: none;
+  color: white;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+li button:hover {
+  background-color: #e63946;
+}
+
+li a {
+  color: #e0e0e0;
+}
+
+li a:hover {
+  color: #8a8a8a;
+}
+
+/* Input and Buttons */
+input {
+  width: 90%;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  border: 1px solid #444;
+  background-color: #222; /* Dark background for input fields */
+  color: #e0e0e0;
+}
+
+button {
+  width: 20%;
+  padding: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  margin-top: 1em;
+  margin: 1em;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+}
+
+.button-ui {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: #333;
+  padding: 2em;
+  border-radius: 1em;
+  width: 25em; /* Set width of modal to 25em */
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.modal-content h2 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.modal-content p {
+  margin-bottom: 1.5em;
+}
+
+.modal-content button {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 600px) {
+  .list-container {
+    width: 90%;
+    height: 70vh;
+    padding: 1.5em;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  button {
+    width: 100%;
+    padding: 1.25em;
+    font-size: 1.125em;
+  }
+
+  li {
+    font-size: 1.125em;
+    padding: 0.75em;
+  }
+
+  .modal-content {
+    width: 80%;
+    padding: 1.5em;
+  }
+}
