@@ -34,17 +34,11 @@
     "react-redux": "^8.1.2",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     "react-test-renderer": "^18.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "raf": "^3.4.1",
     "enzyme-to-json": "^3.6.1",
->>>>>>> d7e1d062d837552143d3625e32f5f19ddc99d43f
-=======
->>>>>>> e7992c460a1d3b0f8477d74bcaea5623ada396a5
     "redux": "^4.2.1",
     "sass-loader": "^14.0.0",
     "sort-by": "^1.2.0",
