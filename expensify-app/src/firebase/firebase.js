@@ -1,14 +1,7 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-import "firebase/compat/storage";
-
-import { getDatabase, ref, set, update, remove, onValue, push, DataSnapshot, onChildAdded, onChildRemoved, onChildChanged } from "firebase/database";
+import { getDatabase, ref, push } from "firebase/database";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,6 +22,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
+export { app, db as default };
+
 // onValue(ref(db),
 //   (dataSnapshot) => { 
 //   const val = dataSnapshot.val();
@@ -38,154 +33,154 @@ const db = getDatabase();
 //   }
 // );
 
-// push(ref(db, 'notes'), {
-//   title: 'Course Topics',
-//   body: 'React Native, Angular, Python'
+push(ref(db, 'notes'), {
+  title: 'Course Topics',
+  body: 'React Native, Angular, Python'
+})
+
+push(ref(db, 'expenses'), {
+  description: 'Rent',
+  note: 'Rent payments',
+  amount: 175000,
+  createdAt: 48945680
+})
+
+// setTimeout(() => {
+//   update(ref(db), {
+//     age: 33,
+//     'job/company': 'SumUp'
+//   })
+// }, 3500)
+
+// setTimeout(() => {
+//   update(ref(db), {
+//     age: 31,
+//     'job/company': 'Apple'
+//   })
+// }, 7000)
+
+// setTimeout(() => {
+//   update(ref(db), {
+//     age: 30,
+//     'job/company': 'Google'
+//   })
+// }, 10500)
+
+// onValue(ref(db, 'expenses'),
+//   (dataSnapshot) => {
+//     const val = dataSnapshot.val();
+//     const expenses = [];
+
+//     dataSnapshot.forEach((childSnapshot) => {
+//       expenses.push({
+//         id: childSnapshot.key,
+//         ...childSnapshot.val()
+//       })
+//     })
+//     console.log(expenses)
+//   }, {
+//     onlyOnce: true
+//   });
+// // set(ref(db), {
+// //   username: 'Gianpi Stas',
+// //   age: 29,
+// //   stressLevel: 6,
+// //   isEmployed: true,
+// //   job: {
+// //     title: 'Admissions',
+// //     company: 'Naropa University'
+// //   },
+// //   location: {
+// //     city: 'Boulder',
+// //     state: 'CO',
+// //     country: 'United States',
+// //   }
+// // }).then(() => {
+// //   console.log('Data is saved');
+// // }).catch((err) => {
+// //   console.log('This failed.', err);
+// // });
+
+// // update(ref(db), {
+// //   age: 30,
+// //   stressLevel: 9,
+// //   'job/title': 'Software Engineer',
+// //   'job/company': 'Google',
+// //   'location/city': 'Denver'
+// // }).then(() => {
+// //   console.log('Data was updated')
+// // }).catch((err) => {
+// //   console.log('Update failed.', err);
+// // })
+
+// // remove(ref(db, 'isEmployed')).then(() => {
+// //   console.log('Successfully removed')
+// // }).catch((err) => {
+// //   console.log('Error in removing', err);
+// // })
+
+// // const analytics = getAnalytics();
+
+// // const attributes = {
+// //     height: `5'10"`,
+// //     weight: 200
+// // }
+
+// // set(ref(db, 'attributes'), attributes).then(() => {
+// //   console.log('Second set call worked')
+// // }).catch((err) => {
+// //   console.error('Error in second set call', err)
+// // });
+// // set(ref(db, 'analytics'), analytics);
+
+// onChildAdded(ref(db, 'expenses'),
+//   (dataSnapshot) => {
+//     const expenses = [];
+//     dataSnapshot.forEach((childSnapshot) => {
+//       expenses.push({
+//         id: childSnapshot.key,
+//         ...childSnapshot.val()
+//       });      
+//     });
+//     console.log(expenses);
+// }, (error) => {
+//   console.log("Error: ", error)
 // })
 
-// push(ref(db, 'expenses'), {
-//   description: 'Rent',
-//   note: 'Rent payments',
-//   amount: 175000,
-//   createdAt: 48945680
+// onChildRemoved(ref(db, 'expenses'), 
+//   (dataSnapshot) => {
+//     const expenses = [];
+//     dataSnapshot.forEach((childSnapshot) => {
+//       expenses.push({
+//         id: childSnapshot.key,
+//         ...childSnapshot.val()
+//       });      
+//     });
+//     console.log(expenses);
+// }, (error) => {
+//   console.log("Error: ", error)
 // })
 
-setTimeout(() => {
-  update(ref(db), {
-    age: 33,
-    'job/company': 'SumUp'
-  })
-}, 3500)
-
-setTimeout(() => {
-  update(ref(db), {
-    age: 31,
-    'job/company': 'Apple'
-  })
-}, 7000)
-
-setTimeout(() => {
-  update(ref(db), {
-    age: 30,
-    'job/company': 'Google'
-  })
-}, 10500)
-
-onValue(ref(db, 'expenses'),
-  (dataSnapshot) => {
-    const val = dataSnapshot.val();
-    const expenses = [];
-
-    dataSnapshot.forEach((childSnapshot) => {
-      expenses.push({
-        id: childSnapshot.key,
-        ...childSnapshot.val()
-      })
-    })
-    console.log(expenses)
-  }, {
-    onlyOnce: true
-  });
-// set(ref(db), {
-//   username: 'Gianpi Stas',
-//   age: 29,
-//   stressLevel: 6,
-//   isEmployed: true,
-//   job: {
-//     title: 'Admissions',
-//     company: 'Naropa University'
-//   },
-//   location: {
-//     city: 'Boulder',
-//     state: 'CO',
-//     country: 'United States',
-//   }
-// }).then(() => {
-//   console.log('Data is saved');
-// }).catch((err) => {
-//   console.log('This failed.', err);
-// });
-
-// update(ref(db), {
-//   age: 30,
-//   stressLevel: 9,
-//   'job/title': 'Software Engineer',
-//   'job/company': 'Google',
-//   'location/city': 'Denver'
-// }).then(() => {
-//   console.log('Data was updated')
-// }).catch((err) => {
-//   console.log('Update failed.', err);
+// onChildChanged(ref(db, 'expenses'),
+//   (dataSnapshot) => {
+//     const expenses = [];
+//     dataSnapshot.forEach((childSnapshot) => {
+//       expenses.push({
+//         id: childSnapshot.key,
+//         ...childSnapshot.val()
+//       });      
+//     });
+//     console.log(expenses)
 // })
 
-// remove(ref(db, 'isEmployed')).then(() => {
-//   console.log('Successfully removed')
-// }).catch((err) => {
-//   console.log('Error in removing', err);
-// })
 
-// const analytics = getAnalytics();
-
-// const attributes = {
-//     height: `5'10"`,
-//     weight: 200
+// // Function to update the database on Firebase using the update method
+// function updateExpense(id, updates) {
+//   update(ref(db, 'expenses/' + id), updates)
+//     .then(() => {
+//       console.log('Data was updated')
+//     })
+//     .catch((err) => {
+//       console.log('Update failed.', err);
+//     })
 // }
-
-// set(ref(db, 'attributes'), attributes).then(() => {
-//   console.log('Second set call worked')
-// }).catch((err) => {
-//   console.error('Error in second set call', err)
-// });
-// set(ref(db, 'analytics'), analytics);
-
-onChildAdded(ref(db, 'expenses'),
-  (dataSnapshot) => {
-    const expenses = [];
-    dataSnapshot.forEach((childSnapshot) => {
-      expenses.push({
-        id: childSnapshot.key,
-        ...childSnapshot.val()
-      });      
-    });
-    console.log(expenses);
-}, (error) => {
-  console.log("Error: ", error)
-})
-
-onChildRemoved(ref(db, 'expenses'), 
-  (dataSnapshot) => {
-    const expenses = [];
-    dataSnapshot.forEach((childSnapshot) => {
-      expenses.push({
-        id: childSnapshot.key,
-        ...childSnapshot.val()
-      });      
-    });
-    console.log(expenses);
-}, (error) => {
-  console.log("Error: ", error)
-})
-
-onChildChanged(ref(db, 'expenses'),
-  (dataSnapshot) => {
-    const expenses = [];
-    dataSnapshot.forEach((childSnapshot) => {
-      expenses.push({
-        id: childSnapshot.key,
-        ...childSnapshot.val()
-      });      
-    });
-    console.log(expenses)
-})
-
-
-// Function to update the database on Firebase using the update method
-function updateExpense(id, updates) {
-  update(ref(db, 'expenses/' + id), updates)
-    .then(() => {
-      console.log('Data was updated')
-    })
-    .catch((err) => {
-      console.log('Update failed.', err);
-    })
-}
