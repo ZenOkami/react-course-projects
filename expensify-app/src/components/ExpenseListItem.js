@@ -5,7 +5,7 @@ import moment from "moment";
 import { NavLink } from "react-router-dom";
 import numeral from "numeral";
 
-const ExpenseListItem = ({ id, description, amount, createdAt }) => (
+export const ExpenseListItem = ({ id, description, amount, createdAt }) => (
     <div>
         <NavLink to={`/edit/${id}`} className={({ isActive }) => isActive ? 'is-active' : undefined} end>
             <h3>{description}</h3>

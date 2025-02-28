@@ -118,7 +118,9 @@ exports[`Should Render Expense Form correctly 1`] = `
       placeholder="Add a note for your Expense (optional)"
       value=""
     />
-    <button>
+    <button
+      type="submit"
+    >
       Add Expense
     </button>
   </form>
@@ -243,7 +245,9 @@ exports[`Should render Expense Form with fixtures 1`] = `
       placeholder="Add a note for your Expense (optional)"
       value=""
     />
-    <button>
+    <button
+      type="submit"
+    >
       Add Expense
     </button>
   </form>
@@ -371,7 +375,9 @@ exports[`Should render error for invalid Expense Form 1`] = `
       placeholder="Add a note for your Expense (optional)"
       value=""
     />
-    <button>
+    <button
+      type="submit"
+    >
       Add Expense
     </button>
   </form>

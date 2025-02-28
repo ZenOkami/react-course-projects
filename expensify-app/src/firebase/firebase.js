@@ -33,17 +33,17 @@ export { app, db as default };
 //   }
 // );
 
-push(ref(db, 'notes'), {
-  title: 'Course Topics',
-  body: 'React Native, Angular, Python'
-})
+// push(ref(db, 'notes'), {
+//   title: 'Course Topics',
+//   body: 'React Native, Angular, Python'
+// })
 
-push(ref(db, 'expenses'), {
-  description: 'Rent',
-  note: 'Rent payments',
-  amount: 175000,
-  createdAt: 48945680
-})
+// push(ref(db, 'expenses'), {
+//   description: 'Rent',
+//   note: 'Rent payments',
+//   amount: 175000,
+//   createdAt: 48945680
+// })
 
 // setTimeout(() => {
 //   update(ref(db), {

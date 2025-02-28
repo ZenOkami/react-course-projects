@@ -16,7 +16,7 @@ exports[`Should render Expense List Item from list of expenses 1`] = `
      - 
     December 31st, 1969
     , 
-    54 years ago
+    55 years ago
   </p>
 </div>
 `;

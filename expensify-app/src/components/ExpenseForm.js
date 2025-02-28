@@ -1,6 +1,6 @@
 import React from "react";
-import moment from 'moment'
-import { SingleDatePicker } from 'react-dates'
+import moment from 'moment';
+import { SingleDatePicker } from 'react-dates';
 
 const now = moment();
 
@@ -88,7 +88,9 @@ export default class ExpenseForm extends React.Component {
                     >
 
                     </textarea>
-                    <button>Add Expense</button>
+                    <button
+                        type="submit"
+                    >Add Expense</button>
                 </form>
             </div>
         )

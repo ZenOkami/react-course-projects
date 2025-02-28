@@ -1,8 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
-import {app, database} from '../firebase/firebase';
+import { app } from '../firebase/firebase';
 import db from '../firebase/firebase';
-import { getDatabase, ref, set, onValue, update, remove, off, push, get, child, onChildRemoved, onChildChanged, onChildAdded } from "firebase/database";
-
+import { ref, push, get, child, remove } from "firebase/database";
 
  // add expense
 export const addExpense = (expense)=>({
@@ -10,7 +9,7 @@ export const addExpense = (expense)=>({
     expense
 });
 
-export const startAddExpense = (expenseData = {})=>{
+export const startAddExpense = (expenseData = {})=> {
     return (dispatch)=>{
         const {
             description = '',
@@ -19,13 +18,13 @@ export const startAddExpense = (expenseData = {})=>{
             createdAt = 0 
         } = expenseData;
         const expense = { description, note, amount, createdAt };
+        console.log(expense);
         return push(ref(db, 'expenses'), expense).then((ref)=>{
             dispatch(addExpense({
                 id: ref.key,
                 ...expense
             }));
-        });
-        
+        });  
     };
 };
 
@@ -42,3 +41,45 @@ export const editExpense = (id, updates) => ({
     id,
     updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: "SET_EXPENSES",
+    expenses
+})
+
+export const startSetExpenses = (dispatch) => {
+    return (dispatch) => {
+      const dbRef = ref(db)
+      return get(child(dbRef, 'expenses')).then((snapshot) => {
+        if (snapshot.exists()) {
+          const expenses = []
+          snapshot.forEach((childSnapshot) => {
+            expenses.push({
+              id: childSnapshot.key,
+              ...childSnapshot.val(),
+            });
+          });
+          dispatch(setExpenses(expenses))
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+  }
+
+  export const startRemoveExpense = ({ id }) => {
+    return dispatch => {
+        const dbRef = ref(db);
+        return remove(child(dbRef, `expenses/${id}`))
+        .then(() => {
+          dispatch(
+            removeExpense({
+              id
+            })
+          );
+        });
+    };
+  };

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import Routes from './routers/AppRouter'
 import configureStore from './store/configureStore';
 import getVisibleExpenses from './selectors/expenses'
-import { addExpense, removeExpense, editExpense } from "./actions/expenses";
+import { startAddExpense, startSetExpenses, removeExpense, editExpense } from "./actions/expenses";
 import { setTextFilter, setStartDate, setEndDate, sortByDate, sortByAmount } from "./actions/filters"; 
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css'
@@ -28,4 +28,8 @@ const jsx = (
     </Provider>
 );
 
-root.render(jsx);
+root.render(<p>Loading...</p>)
+
+store.dispatch(startSetExpenses()).then(() => {
+    root.render(jsx);
+})
