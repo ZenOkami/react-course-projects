@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import { app } from '../firebase/firebase';
 import db from '../firebase/firebase';
-import { ref, push, get, child, remove } from "firebase/database";
+import { ref, push, get, child, remove, update } from "firebase/database";
 
  // add expense
 export const addExpense = (expense)=>({
@@ -35,12 +35,35 @@ export const removeExpense = ({ id } = {}
     id
 });
 
+export const startRemoveExpense = ({ id }) => {
+  return dispatch => {
+      const dbRef = ref(db);
+      return remove(child(dbRef, `expenses/${id}`))
+      .then(() => {
+        dispatch(
+          removeExpense({
+            id
+          })
+        );
+      });
+  };
+};
+
 // edit expense
 export const editExpense = (id, updates) => ({
     type: "EDIT_EXPENSE",
     id,
     updates
 });
+
+export const startEditExpense = (id, updates) => {
+    const dbRef = ref(db);
+    return dispatch => {
+        return update(child(dbRef, `expenses/${id}`), updates).then(() => {
+            dispatch(editExpense(id, updates));
+        })
+    }
+}
 
 // SET_EXPENSES
 export const setExpenses = (expenses) => ({
@@ -69,17 +92,3 @@ export const startSetExpenses = (dispatch) => {
       });
     }
   }
-
-  export const startRemoveExpense = ({ id }) => {
-    return dispatch => {
-        const dbRef = ref(db);
-        return remove(child(dbRef, `expenses/${id}`))
-        .then(() => {
-          dispatch(
-            removeExpense({
-              id
-            })
-          );
-        });
-    };
-  };
