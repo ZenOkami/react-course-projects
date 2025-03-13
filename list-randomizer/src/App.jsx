@@ -34,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home lists={lists} addList={addList} deleteList={deleteList} />} />
         <Route path="/list/:id" element={<ListPage lists={lists} updateList={updateList} />} />
+        <Route path='/list/*' element={<Error404 />} />
         <Route path='*' element={<Error404 />} />
       </Routes>
     </Router>
